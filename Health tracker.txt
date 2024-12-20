@@ -1,0 +1,66 @@
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+
+
+class HealthTracker(BoxLayout):
+
+    def __init__(self, **kwargs):
+            super().__init__(orientation='vertical', **kwargs)
+
+                    # BMI Calculator Section
+                            self.add_widget(Label(text='Enter your weight (kg):'))
+                                    self.weight_input = TextInput(hint_text='Weight in kg', multiline=False)
+                                            self.add_widget(self.weight_input)
+
+                                                    self.add_widget(Label(text='Enter your height (m):'))
+                                                            self.height_input = TextInput(hint_text='Height in meters', multiline=False)
+                                                                    self.add_widget(self.height_input)
+
+                                                                            self.bmi_button = Button(text='Calculate BMI')
+                                                                                    self.bmi_button.bind(on_press=self.calculate_bmi)
+                                                                                            self.add_widget(self.bmi_button)
+
+                                                                                                    self.bmi_result = Label(text='Your BMI will be displayed here.')
+                                                                                                            self.add_widget(self.bmi_result)
+
+                                                                                                                    # Workout Log Section
+                                                                                                                            self.add_widget(Label(text='
+                                                                                                                            Workout Log:'))
+                                                                                                                                    self.workout_log = TextInput(hint_text='Log your workout here', multiline=True)
+                                                                                                                                            self.add_widget(self.workout_log)
+
+                                                                                                                                                    # Water Intake Section
+                                                                                                                                                            self.add_widget(Label(text='
+                                                                                                                                                            Water Intake (liters):'))
+                                                                                                                                                                    self.water_input = TextInput(hint_text='Liters of water consumed', multiline=False)
+                                                                                                                                                                            self.add_widget(self.water_input)
+
+                                                                                                                                                                                    # Submit Button
+                                                                                                                                                                                            self.submit_button = Button(text='Submit Details')
+                                                                                                                                                                                                    self.submit_button.bind(on_press=self.submit_details)
+                                                                                                                                                                                                            self.add_widget(self.submit_button)
+                                                                                                                                                                                                                def calculate_bmi(self, instance):
+                                                                                                                                                                                                                        try:
+                                                                                                                                                                                                                                    weight = float(self.weight_input.text)
+                                                                                                                                                                                                                                                height = float(self.height_input.text)
+                                                                                                                                                                                                                                                            bmi = weight / (height ** 2)
+                                                                                                                                                                                                                                                                        self.bmi_result.text = f'Your BMI is: {bmi:.2f}'
+                                                                                                                                                                                                                                                                                except ValueError:
+                                                                                                                                                                                                                                                                                            self.bmi_result.text = 'Please enter valid numbers.'
+
+                                                                                                                                                                                                                                                                                                def submit_details(self, instance):
+                                                                                                                                                                                                                                                                                                        print("Workout Log:", self.workout_log.text)
+                                                                                                                                                                                                                                                                                                                print("Water Intake:", self.water_input.text)
+                                                                                                                                                                                                                                                                                                                        print("Details submitted successfully!")
+
+
+                                                                                                                                                                                                                                                                                                                        class HealthApp(App):
+                                                                                                                                                                                                                                                                                                                            def build(self):
+                                                                                                                                                                                                                                                                                                                                    return HealthTracker()
+
+
+                                                                                                                                                                                                                                                                                                                                    if __name__ == '__main__':
+                                                                                                                                                                                                                                                                                                                                           HealthApp().run()
